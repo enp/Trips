@@ -27,9 +27,11 @@ async function load() {
 
         const bulk = []
 
+        process.chdir('..')
+
         const files = fs.readdirSync('.')
         for (const file of files) {
-            if (!file.startsWith('.') && file != 'node_modules' && fs.lstatSync(file).isDirectory()) {
+            if (!file.startsWith('.') && file != 'tools' && fs.lstatSync(file).isDirectory()) {
                 const trip = JSON.parse(fs.readFileSync(`${file}/metadata.json`, 'utf8'))
                 trip.text = fs.readFileSync(`${file}/readme.md`, 'utf8')
                 bulk.push({ index:  { _index: index_name, _type: 'trip', _id : file } })
